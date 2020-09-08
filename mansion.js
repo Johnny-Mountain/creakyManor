@@ -49,8 +49,21 @@ let hallway = () => {
 }
 
 let reception = () => {
-    // this is the correct route through - needs coding
-    alert("Reception")
+    alert("You have entered a large reception room. There are chairs arranged around a coffee table with some books and magazines, empty teacups and an empty cake stand. There are oil paintings on wall and a glass cabinet filled with antique china. There are doors to the east and south or you can go back to the entrance")
+
+    let answer = prompt("east, south or back")
+
+    console.log(answer)
+    if(answer.toLowerCase() == "east") {
+        masterDiningRoom()
+    } else if(answer.toLowerCase() == "south") {
+        alert("south")
+    } else if(answer.toLowerCase() == "back") {
+        entrance()
+    } else {
+        alert("give me something to work with!!!")
+        hallway()
+    }
 }
 
 let livingRoom = () => {
