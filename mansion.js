@@ -49,6 +49,7 @@ let hallway = () => {
 }
 
 let reception = () => {
+    // this is the correct route through - needs coding
     alert("Reception")
 }
 
@@ -59,11 +60,59 @@ let livingRoom = () => {
 
     console.log(answer)
     if(answer.toLowerCase() == "south") {
-        hallway();
+        conservatory();
     } else if(answer.toLowerCase() == "back") {
-        livingRoom()
+        hallway()
     } else {
         alert("give me something to work with!!!")
         entrance()
+    }
+}
+
+let conservatory = () => {
+    alert("You've wondered into a small conservatory. The room is bright as a beam of moonlight pours through the skylight above. You wonder if you could maybe climb out and make your way to freedom but the skylight is much too high, even with a chair to stand on. You notice a stack of winter coats hanging along the wall and below them a rucksack. You see a flask peeking out of the top and open it up, it’s filled with water. Rummaging further through the bag you find [contents]. These may come in useful later! You can go south or back the way you came")
+
+    let answer = prompt("south or back")
+
+    console.log(answer)
+    if(answer.toLowerCase() == "south") {
+        gamesRoom();
+    } else if(answer.toLowerCase() == "back") {
+        livingRoom()
+    } else if(getVerb(answer) == "get" &&
+             (getNoun(answer) == "flask" || getNoun(answer) == "water")) {
+        alert("picked up Flask of Water")
+        inventory.push("Flask of Water")
+        conservatory()
+    } else {
+        alert("give me something to work with!!!")
+        conservatory()
+    }
+}
+
+let gamesRoom = () => {
+    alert("You have entered the games room. There is a billiard table in the centre of the room. There are three card tables, one large and two, small. One one of the small card tables are several hands of cards and some brandy glasses. There is decanter, half filled with brandy. There is large dart board on one wall with half a dozen darts. There is backgammon table with pieces set for game. At the far end of the room is a large ornate chess board. The game was started, but not finished. You can go south or back to the conservatory")
+
+    let answer = prompt("south or back")
+
+    console.log(answer)
+    if(answer.toLowerCase() == "south") {
+        boneRoom();
+    } else if(answer.toLowerCase() == "back") {
+        conservatory()
+    } else {
+        alert("give me something to work with!!!")
+        conservatory()
+    }
+}
+
+let boneRoom = () => {
+    alert("Strange, this room is totally empty.... apart from the pile of charred bones in the corner... there is no way forwardd you can only go back")
+
+    let answer = prompt("back")
+
+    console.log(answer)
+    if(answer.toLowerCase() == "back") {
+        gamesRoom();
     }
 }
