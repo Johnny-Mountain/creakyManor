@@ -62,7 +62,7 @@ let reception = () => {
         entrance()
     } else {
         alert("give me something to work with!!!")
-        hallway()
+        reception()
     }
 }
 
