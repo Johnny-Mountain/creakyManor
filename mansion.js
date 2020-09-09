@@ -18,52 +18,6 @@ let getNoun = (sentence) => {
     return spl[1].toLowerCase()
 }
 
-// control the players inventory
-let getInventory = () => { return inventory; }
-let getItem = (index) => { 
-    if(index < inventory.length)
-        return inventory[index]
-    else
-        return null
-}
-let findItem = (item) => {
-    for(i = 0; i < inventory.length; i++) {
-        if(inventory[i].toLowerCase() == item.toLowerCase()) {
-            return i;
-        }
-    }
-    return -1;
-}
-let addItem = (newItem) => { inventory.push(newItem); }
-let removeItem = (item) => {
-    for(i = 0; i < inventory.length; i++) {
-        if(inventory[i].toLowerCase() == item.toLowerCase()) {
-            inventory.splice(i, 1);
-            break;
-        }
-    }
-}
-let hasItem = (hasThis) => {
-    for(i = 0; i < inventory.length; i++) {
-        if(inventory[i].toLowerCase() == hasThis.toLowerCase()) {
-            return true;
-        }
-    }
-    return false;
-}
-let showInventory = () => {
-    let desc = "You are carrying\n\n"
-    if(inventory.length == 0)
-    desc += "nothing"
-    for(i = 0; i < inventory.length; i++) {
-        desc += inventory[i] + "\n"
-    }
-    alert(desc)
-}
-let clearInventory = () => {
-    inventory.splice(0, inventory.length)
-}
-
 // the room descriptions
 let entrance = () => {
     let answer = prompt("Your torch illuminates the tiled floor up until a derelict grand staircase - some of the banisters are missing and the wooden stairs are rotten and crumbling. You decide it's unsafe to try making your way upstairs and so you play it safe and stick to the ground floor\n\nYou can go west, east or south");
@@ -74,9 +28,6 @@ let entrance = () => {
         reception()
     } else if(answer.toLowerCase() == "south") {
         library()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        entrance()
     } else {
         alert("give me something to work with!!!")
         entrance()
@@ -94,11 +45,7 @@ let hallway = () => {
         nursery()
     } else if(getVerb(answer) == "get" && getNoun(answer) == "stones") {
         alert("picked up stones")
-        addItem("Stones")
-        console.log(`${inventory[0]}`)
-        hallway()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
+        hasStones = true
         hallway()
     } else {
         alert("give me something to work with!!!")
@@ -115,9 +62,6 @@ let reception = () => {
         laboratory()
     } else if(answer.toLowerCase() == "west") {
         entrance()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        reception()
     } else {
         alert("give me something to work with!!!")
         reception()
@@ -131,9 +75,6 @@ let livingRoom = () => {
         conservatory();
     } else if(answer.toLowerCase() == "east") {
         hallway()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        livingRoom()
     } else {
         alert("give me something to work with!!!")
         entrance()
@@ -141,7 +82,7 @@ let livingRoom = () => {
 }
 
 let conservatory = () => {
-    let answer = prompt("You've wondered into a small conservatory. The room is bright as a beam of moonlight pours through the skylight above. You wonder if you could maybe climb out and make your way to freedom but the skylight is much too high, even with a chair to stand on. You notice a stack of winter coats hanging along the wall and below them a rucksack. You see a flask peeking out of the top and open it up, it’s filled with water. Rummaging further through the bag you find [contents]. These may come in useful later!\n\nYou can go east, north or south")
+    let answer = prompt("You've wondered into a small conservatory. The room is bright as a beam of moonlight pours through the skylight above. You wonder if you could maybe climb out and make your way to freedom but the skylight is much too high, even with a chair to stand on. You notice a stack of winter coats hanging along the wall and below them a rucksack. You see a flask peeking out of the top and open it up, it’s empty. Bah!\n\nYou can go east, north or south")
 
     if(answer.toLowerCase() == "south") {
         gamesRoom();
@@ -149,14 +90,6 @@ let conservatory = () => {
         livingRoom()
     } else if(answer.toLowerCase() == "east") {
         nursery()
-    } else if(getVerb(answer) == "get" &&
-             (getNoun(answer) == "flask" || getNoun(answer) == "water")) {
-        alert("picked up Flask of Water")
-        addItem("Flask of Water")
-        conservatory()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        conservatory()
     } else {
         alert("give me something to work with!!!")
         conservatory()
@@ -172,9 +105,6 @@ let gamesRoom = () => {
         conservatory()
     } else if(answer.toLowerCase() == "east") {
         armoury()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        gamesRoom()
     } else {
         alert("give me something to work with!!!")
         gamesRoom()
@@ -186,9 +116,6 @@ let boneRoom = () => {
 
     if(answer.toLowerCase() == "north") {
         gamesRoom();
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        boneRoom()
     } else {
         alert("give me something to work with!!!")
         gamesRoom()
@@ -207,9 +134,6 @@ let masterDiningRoom = () => {
         } else {
             masterDiningRoom()
         }
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        masterDiningRoom()
     } else {
         alert("give me something to work with!!!")
         masterDiningRoom()
@@ -225,9 +149,6 @@ let kitchen = () => {
         laboratory()
     } else if(answer.toLowerCase() == "south") {
         pantry()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        kitchen()
     } else {
         alert("give me something to work with!!!")
         kitchen()
@@ -245,9 +166,6 @@ let laboratory = () => {
         kitchen()
     } else if(answer.toLowerCase() == "south") {
         batRoom()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        laboratory()
     } else {
         alert("give me something to work with!!!")
         laboratory();
@@ -263,9 +181,6 @@ let library = () => {
         nursery();
     } else if(answer.toLowerCase() == "north") {
         entrance()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        library()
     } else {
         alert("give me something to work with!!!")
         library();
@@ -283,9 +198,6 @@ let nursery = () => {
         hallway()
     } else if(answer.toLowerCase() == "south") {
         armoury();
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        nursery()
     } else {
         alert("give me something to work with!!!")
         nursery();
@@ -296,24 +208,16 @@ let armoury = () => {
     let answer = prompt("CRAASH! You think you’ve bumped into someone! Oh, it’s a suit of armour! It falls back into the suit behind causing an entire row of them to collapse like dominoes - the noise is deafening! You hope someone or something didn’t hear that! Looking around you notice huge swords and axes mounted along the walls. This must be the armoury In the centre of the room is a large wooden chest with a rusted lock. As you examine the lock further it snaps in your hand. YOU’RE IN! The chest contains a pointy dagger!\n\nWould you like to get the dagger or go west, north or south")
 
     if ((getVerb(answer) == "get") && (getNoun(answer) == "dagger")) {
-            alert("picked up dagger")
-            addItem("Pointy dagger")
-            armoury()
-    }
-    else if(answer.toLowerCase() == "south") {
-        smokingRoom();
-    } 
-    else if(answer.toLowerCase() == "north") {
-        nursery();
-    } 
-    else if(answer.toLowerCase() == "west") {
-        gamesRoom();
-    } 
-    else if(answer.toLowerCase() == "inventory") {
-        showInventory()
+        alert("picked up dagger")
+        isArmed = true
         armoury()
-    }
-    else {
+    } else if(answer.toLowerCase() == "south") {
+        smokingRoom();
+    } else if(answer.toLowerCase() == "north") {
+        nursery();
+    } else if(answer.toLowerCase() == "west") {
+        gamesRoom();
+    } else {
         alert("give me something to work with!!!")
         armoury();
     }
@@ -326,9 +230,6 @@ let smokingRoom = () => {
         armoury();
     } else if(answer.toLowerCase() == "east") {
         emptyRoom()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        smokingRoom()
     } else {
         alert("give me something to work with!!!")
         smokingRoom();
@@ -342,9 +243,6 @@ let emptyRoom = () => {
         smokingRoom();
     } else if(answer.toLowerCase() == "east") {
         monsterRoom()
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        emptyRoom()
     } else {
         alert("give me something to work with!!!")
         emptyRoom();
@@ -355,14 +253,11 @@ let secretRoom = () => {
     let answer = prompt("A Secret room! This dimly lit room has a desk, and beside it, a small safe. There is a large revolver on the desk. There is gun rack with a selection of hunting rifles and shotguns. There is another rack on the opposite wall with some antique swords and crossbow. There is a cupboard, marked ‘survival rations’ Boxes litter the floor. One contains books and a couple of powerful torches.\n\nThe only way out is north")
 
     if ((getVerb(answer) == "get") && (getNoun(answer) == "revolver")) {
-        alert("picked up dagger")
-        addItem("Pointy dagger")
+        alert("picked up revolver")
+        isArmed = true
         armoury()
     } else if(answer.toLowerCase() == "north") {
         library();
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        secretRoom()
     } else {
         alert("give me something to work with!!!")
         secretRoom();
@@ -370,7 +265,7 @@ let secretRoom = () => {
 }
 
 let monsterRoom = () => {
-    if(!hasItem("STONES")) {
+    if(!hasStones) {
         alert("A thunderous growl shakes the ground around you. You quickly dodge the rocks crumbling from the ceiling. Before you stands a ginormous green beast drawing in its breath a-... it can't be... it's a \"DRAGGGOOOONNN\". You just about get the word out before you're engulfed in flames and burnt to a crisp.\n\nGAME OVER!")
         clearInventory()
         entrance()
@@ -384,9 +279,6 @@ let monsterRoom = () => {
         batRoom();
     } else if(answer.toLowerCase() == "east") {
         theFinalRoom();
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        monsterRoom()
     } else {
         alert("give me something to work with!!!")
         emptyRoom();
@@ -402,9 +294,6 @@ let batRoom = () => {
         pantry();
     } else if(answer.toLowerCase() == "north") {
         laboratory();
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        batRoom()
     } else {
         alert("give me something to work with!!!")
         batRoom();
@@ -415,13 +304,14 @@ let pantry = () => {
     if(ratIsAlive) {
         alert("You have found the pantry and in doing so have disturbed a huge rat feasting on some moldy cheese. The rat shoots you a menacing glare and gets ready to pounce!\n\nYou must fight")
 
-        if(hasItem("POINTY DAGGER")) {
+        if(isArmed) {
             alert("You quickly draw your pointy dagger and manage to stab the rabid beast in the heart as it jumps at you")
             ratIsAlive = false
             pantry()
         } else {
             alert("As you look around to try and find an esacpe route the giant rat leaps at your throat and either by chance or on purpose it finds your jugular vein and sinks it's teeth in.\n\nYou are now rat food. Better luck next time.\n\nGAME OVER")
-            clearInventory()
+            hasStones = false
+            isArmed = false
             entrance()
         }
     } else {
@@ -462,9 +352,6 @@ let theFinalRoom = () => {
             alert("give me something to work with!!!")
             theFinalRoom();
         }
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        theFinalRoom()
     } else {
         alert("give me something to work with!!!")
         theFinalRoom();
