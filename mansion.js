@@ -4,6 +4,7 @@ let inventory = []
 // game flags
 let ratIsAlive = true
 let hasStones = false
+let hasSkull = false
 let isArmed = false
 
 // return the first word of the sentence
@@ -37,8 +38,9 @@ let entrance = () => {
 let hallway = () => {
     let answer = prompt("A small hallway lined with a long row of cabinets. You shine your torch inside the glass and see a twinkle of colour. On closer inspection you see a large collection of multicolured egg shaped stones, carved to look almost like reptilian skin. Very strange indeed.\n\nYou can get the stones or go east, south or west")
 
+    console.log(`${answer}`)
     if(answer.toLowerCase() == "west") {
-        livingRoom();
+        livingRoom()
     } else if(answer.toLowerCase() == "east") {
         entrance()
     } else if(answer.toLowerCase() == "south") {
@@ -69,7 +71,7 @@ let reception = () => {
 }
 
 let livingRoom = () => {
-    let answer = ("You enter into what looks to have been a small living room. Family pictures hang on the wall and you wonder what has happened to the people in the photographs! Above the fireplace hangs an eerie portrait of a lady in an emerald dress. Her eyes follow you around the room. You notice she is pointing to the south. Could this be a sign to the way out? or is she pointing you in a more sinister direction! Which way will you go?\n\nYou can head east or south")
+    let answer = prompt("You enter into what looks to have been a small living room. Family pictures hang on the wall and you wonder what has happened to the people in the photographs! Above the fireplace hangs an eerie portrait of a lady in an emerald dress. Her eyes follow you around the room. You notice she is pointing to the south. Could this be a sign to the way out? or is she pointing you in a more sinister direction! Which way will you go?\n\nYou can head east or south")
 
     if(answer.toLowerCase() == "south") {
         conservatory();
@@ -77,7 +79,7 @@ let livingRoom = () => {
         hallway()
     } else {
         alert("give me something to work with!!!")
-        entrance()
+        livingRoom()
     }
 }
 
@@ -112,13 +114,16 @@ let gamesRoom = () => {
 }
 
 let boneRoom = () => {
-    let answer = prompt("Strange, this room is totally empty... apart from the pile of charred bones in the corner... there is no way forward you can only go back to the north")
+    let answer = prompt("Strange, this room is totally empty... apart from the pile of charred bones in the corner... rummaging through the bones you find a skull with eerie runes carved into it. You can get the skull or go north")
 
-    if(answer.toLowerCase() == "north") {
+    if(getVerb(answer) == "get" && getNoun(answer) == "skull") {
+        hasSkull = true
+        boneRoom()
+    } else if(answer.toLowerCase() == "north") {
         gamesRoom();
     } else {
         alert("give me something to work with!!!")
-        gamesRoom()
+        boneRoom()
     }
 }
 
@@ -173,7 +178,14 @@ let laboratory = () => {
 }
 
 let library = () => {
-    let answer = prompt("You have entered the master library. There are bookselves on every wall except the wall facing the window. There are desks for reading and studying in the middle of the floor. They are very old and still have inkwells. There is parchment paper in the drawers and a copy of Javascript for Dummies is sitting on one of the desks.\n\nYou can go west, north or east")
+    let desc = "You have entered the master library. There are bookselves on every wall except the wall facing the window. There are desks for reading and studying in the middle of the floor. They are very old and still have inkwells. a copy of Javascript for Dummies is sitting on one of the desks."
+
+    if(hasSkull) {
+        desc += "\nYou feel an overwhelming urge to search the bookshelves and to you're surprise find the entrance to a secret room\n\nYou can go west, north, east or south"
+    } else {
+        desc += "\n\nYou can go west, north or east"
+    }
+    let answer = prompt(desc)
 
     if(answer.toLowerCase() == "east") {
         laboratory();
@@ -181,6 +193,8 @@ let library = () => {
         nursery();
     } else if(answer.toLowerCase() == "north") {
         entrance()
+    } else if(answer.toLowerCase() == "south" && hasSkull) {
+        secretRoom()
     } else {
         alert("give me something to work with!!!")
         library();
@@ -250,7 +264,7 @@ let emptyRoom = () => {
 }
 
 let secretRoom = () => {
-    let answer = prompt("A Secret room! This dimly lit room has a desk, and beside it, a small safe. There is a large revolver on the desk. There is gun rack with a selection of hunting rifles and shotguns. There is another rack on the opposite wall with some antique swords and crossbow. There is a cupboard, marked ‘survival rations’ Boxes litter the floor. One contains books and a couple of powerful torches.\n\nThe only way out is north")
+    let answer = prompt("A Secret room! This dimly lit room has a desk, and beside it, a small safe. There is a large revolver on the desk. There is gun rack with a selection of rusty hunting rifles and shotguns. There is another rack on the opposite wall with some antique swords and crossbow as yoy touch them they crumble to dust. There is a cupboard, marked ‘survival rations’ Boxes litter the floor. One contains books and a couple of powerful torches.\n\nYou can get the revolver or go north")
 
     if ((getVerb(answer) == "get") && (getNoun(answer) == "revolver")) {
         alert("picked up revolver")
@@ -305,11 +319,11 @@ let pantry = () => {
         alert("You have found the pantry and in doing so have disturbed a huge rat feasting on some moldy cheese. The rat shoots you a menacing glare and gets ready to pounce!\n\nYou must fight")
 
         if(isArmed) {
-            alert("You quickly draw your pointy dagger and manage to stab the rabid beast in the heart as it jumps at you")
+            alert("You draw your weapon just as the giant rat leaps for your throat. Your adrenalin enhanced reflexes allow you move out of the way of it's attack and as you turn to face the crazed beast you're already moving to attack. The rat dies painfully and messily under your onslaught")
             ratIsAlive = false
             pantry()
         } else {
-            alert("As you look around to try and find an esacpe route the giant rat leaps at your throat and either by chance or on purpose it finds your jugular vein and sinks it's teeth in.\n\nYou are now rat food. Better luck next time.\n\nGAME OVER")
+            alert("As you look around to try and find an esacpe route the giant rat leaps at your throat and either by chance or by instinct it finds your jugular vein and sinks in it's teeth.\n\nYou are now rat food. Better luck next time.\n\nGAME OVER")
             hasStones = false
             isArmed = false
             entrance()
