@@ -346,13 +346,81 @@ let emptyRoom = () => {
     if(answer.toLowerCase() == "back") {
         smokingRoom();
     } else if(answer.toLowerCase() == "east") {
-        alert("east");
+        monsterRoom()
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
         emptyRoom()
     } else {
         alert("give me something to work with!!!")
         emptyRoom();
+    }
+}
+
+let secretRoom = () => {
+    alert("no description so far")
+    let answer = prompt("your choice")
+    console.log(answer)
+    if(answer.toLowerCase() == "back") {
+        secretRoom();
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        secretRoom()
+    } else {
+        alert("give me something to work with!!!")
+        secretRoom();
+    }
+}
+
+let monsterRoom = () => {
+    alert("A thunderous growl shakes the ground around you. You quickly dodge the rocks crumbling from the ceiling. Before you stands a ginormous green beast, drawing in its breath a-.... it can't be... it's a \"DRAGGGOOOONNN\". You just about get the word out before you're engulfed in flames and burnt to a crisp. GAME OVER! You can go north or back")
+    let answer = prompt("north or back")
+    console.log(answer)
+    if(answer.toLowerCase() == "back") {
+        emptyRoom();
+    } else if(answer.toLowerCase() == "north") {
+        alert("north");
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        monsterRoom()
+    } else {
+        alert("give me something to work with!!!")
+        emptyRoom();
+    }
+}
+
+let batRoom = () => {
+    alert("You shine your torch into an empty cupboard startling a family of bats in the process they let out a shriek and frantically flap their wings in your direction. You try to take a step backwards falling over in the process and dropping your torch but luckily no bites, that was a close one! You can go east or back")
+    let answer = prompt("east or back")
+    console.log(answer)
+    if(answer.toLowerCase() == "back") {
+        monsterRoom();
+    } else if(answer.toLowerCase() == "east") {
+        alert("east");
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        batRoom()
+    } else {
+        alert("give me something to work with!!!")
+        batRoom();
+    }
+}
+
+let pantry = () => {
+    alert("You have found the pantry and in doing so have disturbed a huge rat feasting on some moldy cheese. The rat shoots you a menacing glance and gets ready to pounce! FIGHT/FLEE/GET FOOD You can go north, south or back")
+    let answer = prompt("north, south or back")
+    console.log(answer)
+    if(answer.toLowerCase() == "back") {
+        batRoom();
+    } else if(answer.toLowerCase() == "north") {
+        kitchen();
+    } else if(answer.toLowerCase() == "south") {
+        theFinalRoom();
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        pantry()
+    } else {
+        alert("give me something to work with!!!")
+        pantry();
     }
 }
 
