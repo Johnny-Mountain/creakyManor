@@ -58,15 +58,14 @@ let showInventory = () => {
 
 // the room descriptions
 let entrance = () => {
-    alert("Your torch illuminates the tiled floor up until a grand staircase. Some of the banisters are missing and the stairs crumbling. You wonder if it's safe to try making your way upstairs or if you should play it safe and stick to the ground floor");
+    let answer = prompt("Your torch illuminates the tiled floor up until a derelict grand staircase - some of the banisters are missing and the wooden stairs are rotten crumbling. You decide it's unsafe to try making your way upstairs and so you should play it safe and stick to the ground floor\n\nYou can go west, east or south");
 
-    let answer = prompt("up or east")
-
-    console.log(answer)
-    if(answer.toLowerCase() == "up") {
+    if(answer.toLowerCase() == "west") {
         hallway();
     } else if(answer.toLowerCase() == "east") {
         reception()
+    } else if(answer.toLowerCase() == "south") {
+        library()
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
         entrance()
@@ -77,15 +76,14 @@ let entrance = () => {
 }
 
 let hallway = () => {
-    alert("A small hallway lined with a long row of cabinets. You shine your torch inside the glass and see a twinkle of colour. On closer inspection you see a large collection of multicolured egg shaped stones, carved to look almost like reptilian skin. Very strange indeed. You can go west or back to the east")
+    let answer = prompt("A small hallway lined with a long row of cabinets. You shine your torch inside the glass and see a twinkle of colour. On closer inspection you see a large collection of multicolured egg shaped stones, carved to look almost like reptilian skin. Very strange indeed.\n\n You can go east, south or west")
 
-    let answer = prompt("west or back")
-
-    console.log(answer)
     if(answer.toLowerCase() == "west") {
         livingRoom();
-    } else if(answer.toLowerCase() == "back") {
+    } else if(answer.toLowerCase() == "east") {
         entrance()
+    } else if(answer.toLowerCase() == "south") {
+        nursery()
     } else if(getVerb(answer) == "get" && getNoun(answer) == "stones") {
         alert("picked up stones")
         addItem("Stones")
@@ -101,16 +99,13 @@ let hallway = () => {
 }
 
 let reception = () => {
-    alert("You have entered a large reception room. There are chairs arranged around a coffee table with some books and magazines, empty teacups and an empty cake stand. There are oil paintings on wall and a glass cabinet filled with antique china. There are doors to the east and south or you can go back to the entrance")
+    let answer = prompt("You have entered a large reception room. There are chairs arranged around a coffee table with some decayed books and magazines, empty teacups and an empty cake stand. There are oil paintings on wall and a glass cabinet filled with antique china.\n\nYou can go east, west or south")
 
-    let answer = prompt("east, south or back")
-
-    console.log(answer)
     if(answer.toLowerCase() == "east") {
         masterDiningRoom()
     } else if(answer.toLowerCase() == "south") {
         laboratory()
-    } else if(answer.toLowerCase() == "back") {
+    } else if(answer.toLowerCase() == "west") {
         entrance()
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
@@ -122,14 +117,11 @@ let reception = () => {
 }
 
 let livingRoom = () => {
-    alert("You enter into what looks to have been a small living room. Family pictures hang on the wall and you wonder what has happened to the people in the photographs! Above the fireplace hangs an eerie portrait of a lady in an emerald dress. Her eyes follow you around the room. You notice she is pointing to the south. Could this be a sign to the way out? or is she pointing you in a more sinister direction! Which way will you go? You can head south or back to where you came from")
+    let answer = ("You enter into what looks to have been a small living room. Family pictures hang on the wall and you wonder what has happened to the people in the photographs! Above the fireplace hangs an eerie portrait of a lady in an emerald dress. Her eyes follow you around the room. You notice she is pointing to the south. Could this be a sign to the way out? or is she pointing you in a more sinister direction! Which way will you go?\n\nYou can head east or south")
 
-    let answer = prompt("south or back")
-
-    console.log(answer)
     if(answer.toLowerCase() == "south") {
         conservatory();
-    } else if(answer.toLowerCase() == "back") {
+    } else if(answer.toLowerCase() == "east") {
         hallway()
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
@@ -141,15 +133,14 @@ let livingRoom = () => {
 }
 
 let conservatory = () => {
-    alert("You've wondered into a small conservatory. The room is bright as a beam of moonlight pours through the skylight above. You wonder if you could maybe climb out and make your way to freedom but the skylight is much too high, even with a chair to stand on. You notice a stack of winter coats hanging along the wall and below them a rucksack. You see a flask peeking out of the top and open it up, it’s filled with water. Rummaging further through the bag you find [contents]. These may come in useful later! You can go south or back the way you came")
+    let answer = prompt("You've wondered into a small conservatory. The room is bright as a beam of moonlight pours through the skylight above. You wonder if you could maybe climb out and make your way to freedom but the skylight is much too high, even with a chair to stand on. You notice a stack of winter coats hanging along the wall and below them a rucksack. You see a flask peeking out of the top and open it up, it’s filled with water. Rummaging further through the bag you find [contents]. These may come in useful later!\n\nYou can go east, north or south")
 
-    let answer = prompt("south or back")
-
-    console.log(answer)
     if(answer.toLowerCase() == "south") {
         gamesRoom();
-    } else if(answer.toLowerCase() == "back") {
+    } else if(answer.toLowerCase() == "north") {
         livingRoom()
+    } else if(answer.toLowerCase() == "east") {
+        nursery()
     } else if(getVerb(answer) == "get" &&
              (getNoun(answer) == "flask" || getNoun(answer) == "water")) {
         alert("picked up Flask of Water")
@@ -165,15 +156,14 @@ let conservatory = () => {
 }
 
 let gamesRoom = () => {
-    alert("You have entered the games room. There is a billiard table in the centre of the room. There are three card tables, one large and two, small. One one of the small card tables are several hands of cards and some brandy glasses. There is decanter, half filled with brandy. There is large dart board on one wall with half a dozen darts. There is backgammon table with pieces set for game. At the far end of the room is a large ornate chess board. The game was started, but not finished. You can go south or back to the conservatory")
+    let answer = prompt("You have entered the games room. There is a billiard table in the centre of the room, a large dart board on one wall with half a dozen darts, a backgammon table with pieces set for game and at the far end of the room is a large ornate chess board - the game was started but not finished. Ther are also three card tables; one large and two small. On one of the small card tables are several hands of cards, some brandy glasses and a decanter half-filled with brandy.\n\nYou can go north, east or south")
 
-    let answer = prompt("south or back")
-
-    console.log(answer)
     if(answer.toLowerCase() == "south") {
         boneRoom();
-    } else if(answer.toLowerCase() == "back") {
+    } else if(answer.toLowerCase() == "north") {
         conservatory()
+    } else if(answer.toLowerCase() == "east") {
+        armoury()
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
         gamesRoom()
@@ -184,12 +174,9 @@ let gamesRoom = () => {
 }
 
 let boneRoom = () => {
-    alert("Strange, this room is totally empty.... apart from the pile of charred bones in the corner... there is no way forward you can only go back")
+    let answer = prompt("Strange, this room is totally empty... apart from the pile of charred bones in the corner... there is no way forward you can only go back to the north")
 
-    let answer = prompt("back")
-
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
+    if(answer.toLowerCase() == "north") {
         gamesRoom();
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
@@ -201,12 +188,9 @@ let boneRoom = () => {
 }
 
 let masterDiningRoom = () => {
-    alert("The master dining room. The long table has four, large silver candle sticks and is partially covered by a lace table cloth. There is a thin layer of dust on the table, and someone has written ‘Help me’ in the dust. There are many oil paintings in the room showing scenes from antiquity. There is a door to the south.")
+    let answer = prompt("The master dining room. The long table has four, large silver candle sticks and is partially covered by a lace table cloth. There is a thin layer of dust on the table, and someone has written \"Help Me!\" in it. There are many oil paintings around the room showing scenes from antiquity.\n\nThere are doors to the west and south.")
 
-    let answer = prompt("do you want to go south or back thew way you came")
-
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
+    if(answer.toLowerCase() == "west") {
         reception();
     } else if (answer.toLowerCase() == "south") {
         answer = prompt("If you answer this correctly, you may enter:\n\nOne word in this sentence is misspelled. What word is it\n\nwhat is your answer?")
@@ -225,13 +209,14 @@ let masterDiningRoom = () => {
 }
 
 let kitchen = () => {
-    alert("You have entered, this is the main kitchen. There are pots and pans hanging on the walls and from hooks from the middle of ceiling. There is a large open fire  with a huge saucepan, boiling something mysterious. There different kind of meat and birds hanging, waited to be cooked. There is a large pile potatoes in the corner of the room waiting to be cleaned and pealed. It seems there are no exits")
+    let answer = prompt("This is the main kitchen. There are pots and pans hanging from hooks on the walls from the middle of ceiling. There is a large open fire with a huge saucepan, boiling something mysterious. There different kind of meat and birds hanging, waiting to be cooked. There is a large pile potatoes in the corner of the room to be cleaned and peeled.\n\nYou can go west, north or south")
 
-    let answer = prompt("do you want to go back to the master dining?")
-
-    console.log(answer)
-    if(answer.toLowerCase() == "back"){
+    if(answer.toLowerCase() == "north"){
         masterDiningRoom()
+    } else if(answer.toLowerCase() == "west") {
+        laboratory()
+    } else if(answer.toLowerCase() == "south") {
+        pantry()
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
         kitchen()
@@ -242,14 +227,16 @@ let kitchen = () => {
 }
 
 let laboratory = () => {
-    alert("A laboratory? Rows and rows of cobwebbed covered jars line the shelves on just about every wall. An old wooden bench sits in the centre of the room a top it a Bunsen burner and a book. A handwritten list is scrawled on the open page and you can just about make out some of the words. '... ADD THE FERMENTED EYE OF NEWT, BLOOD OF BAT AND WART OF TOAD AND SIMMER FOR 20 MINS...'' Is this some sort of recipe? But for what? Will you go back to the reception room or head west")
-    let answer = prompt("back or west")
+    let answer = prompt("A laboratory? Rows and rows of cobwebbed covered jars line the shelves on just about every wall. An old wooden bench sits in the centre of the room atop it a Bunsen burner and a book. A handwritten list is scrawled on the open page and you can just about make out some of the words. '...ADD THE FERMENTED EYE OF NEWT, BLOOD OF BAT AND WART OF TOAD AND SIMMER FOR 20 MINS...' Is this some sort of recipe? But for what?\n\nWill you go west, north, east or south")
 
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
+    if(answer.toLowerCase() == "north") {
         reception();
     } else if(answer.toLowerCase() == "west") {
         library()
+    } else if(answer.toLowerCase() == "east") {
+        kitchen()
+    } else if(answer.toLowerCase() == "east") {
+        batRoom()
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
         laboratory()
@@ -260,15 +247,14 @@ let laboratory = () => {
 }
 
 let library = () => {
-    alert("You have entered. The master library. There are bookselves on every wall except the wall facing the window. Between the windowed wall and the one opposite there are desks for reading and studying. The desks are very old and still have inkwells. There is parchment paper in the drawers. A copy of Javascript for Dummies is sitting on one desk. You can go back to the laboratory or head west")
+    let answer = prompt("You have entered the master library. There are bookselves on every wall except the wall facing the window. There are desks for reading and studying in the middle of the floor. They are very old and still have inkwells. There is parchment paper in the drawers and a copy of Javascript for Dummies is sitting on one of the desks.\n\nYou can go west, north or east")
 
-    let answer = prompt("back or west")
-
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
+    if(answer.toLowerCase() == "east") {
         laboratory();
     } else if(answer.toLowerCase() == "west") {
         nursery();
+    } else if(answer.toLowerCase() == "north") {
+        entrance()
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
         library()
@@ -279,11 +265,14 @@ let library = () => {
 }
 
 let nursery = () => {
-    alert("You have entered the nursery. There two large wooden cots. There are two shelves of children’s toys, and a bookshelf of colourful children’s books. There is a big leather chair and a large rocking horse. There two small fishing rods leaning against one wall and a large kite hanging from the ceiling. There are rows of toy soldiers on the floor and a small bronze cannon. You can go back to the library or head south")
-    let answer = prompt("back or south")
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
+    let answer = prompt("You have entered the nursery where you can see two large wooden cots. There are two shelves of children’s toys, a bookshelf of colourful children’s books, two small fishing rods are leaning against one wall and a large kite hangs from the ceiling. Up against a wall is a big leather chair and next to it a large rocking horse. Toy soldiers are arranged in rows on the floor with a small bronze cannon.\n\nYou can go west, north, east or south")
+
+    if(answer.toLowerCase() == "east") {
         library();
+    } else if(answer.toLowerCase() == "west") {
+        conservatory()
+    } else if(answer.toLowerCase() == "north") {
+        hallway()
     } else if(answer.toLowerCase() == "south") {
         armoury();
     } else if(answer.toLowerCase() == "inventory") {
@@ -296,21 +285,21 @@ let nursery = () => {
 }
 
 let armoury = () => {
-    alert("CRAASH! You think you’ve bumped into someone! Oh, it’s a suit of armour! It falls back into the suit behind causing an entire row of them to collapse like dominoes. The noise is deafening! You hope someone or something didn’t hear that! Looking around you notice huge swords and axes mounted along the walls. This must be the armoury In the centre of the room is a large wooden chest with a rusted lock. As you examine the lock further it snaps in your hand. YOU’RE IN! The chest contains a pointy dagger! Would you like to pick up the dagger, head south or go back to the nursery")
+    let answer = prompt("CRAASH! You think you’ve bumped into someone! Oh, it’s a suit of armour! It falls back into the suit behind causing an entire row of them to collapse like dominoes - the noise is deafening! You hope someone or something didn’t hear that! Looking around you notice huge swords and axes mounted along the walls. This must be the armoury In the centre of the room is a large wooden chest with a rusted lock. As you examine the lock further it snaps in your hand. YOU’RE IN! The chest contains a pointy dagger!\n\nWould you like to go west, north or south or pick up the dagger")
 
-    let answer = prompt("back, south or get dagger")
-
-    console.log(answer)
     if ((getVerb(answer) == "get") && (getNoun(answer) == "dagger")) { 
             alert("picked up dagger")
             addItem("Pointy dagger")
-            let answer= prompt("back or south")
+            armoury()
     }
     else if(answer.toLowerCase() == "south") {
         smokingRoom();
     } 
-    else if(answer.toLowerCase() == "back") {
+    else if(answer.toLowerCase() == "north") {
         nursery();
+    } 
+    else if(answer.toLowerCase() == "west") {
+        gamesRoom();
     } 
     else if(answer.toLowerCase() == "inventory") {
         showInventory()
@@ -323,10 +312,9 @@ let armoury = () => {
 }
 
 let smokingRoom = () => {
-    alert("You have entered. The smoking room. There are several leather chairs separated by small tables. There are several large humidors and there is a distinctive smell of Cuban cigars and ancient tobacco smoke. Decanters of Port, Brandy, whiskey, gin and vodka sit atop a large Edwardian drinks cabinet, filled with ornate glass-wear. You can head east or back to the armoury")
-    let answer = prompt("back or south")
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
+    let answer = prompt("You have entered the smoking room. There are several leather chairs separated by small tables which of which houses a large humidor and there is a distinctive smell of Cuban cigars and ancient tobacco smoke. Decanters of Port, Brandy, whiskey, gin and rum sit atop a large Edwardian drinks cabinet filled with ornate glassware.\n\nYou can head north or east")
+
+    if(answer.toLowerCase() == "north") {
         armoury();
     } else if(answer.toLowerCase() == "east") {
         emptyRoom()
@@ -340,10 +328,9 @@ let smokingRoom = () => {
 }
 
 let emptyRoom = () => {
-    alert("Water drips from a crack in the ceiling. Your footsteps echo as you walk further into the empty room. Your torch illuminates a message scratched onto the stone wall \"BEWARE THE EMERALD BEAST DO NOT GO EAST\". Do you heed the warning? You can go east or back")
-    let answer = prompt("east or back")
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
+    let answer = prompt("Water drips from a crack in the ceiling. Your footsteps echo as you walk further into the empty room and your torch illuminates a message scratched onto the stone wall \"BEWARE THE EMERALD BEAST DO NOT GO EAST\". Do you heed the warning?\n\nYou can go west or east")
+
+    if(answer.toLowerCase() == "west") {
         smokingRoom();
     } else if(answer.toLowerCase() == "east") {
         monsterRoom()
@@ -372,13 +359,14 @@ let secretRoom = () => {
 }
 
 let monsterRoom = () => {
-    alert("A thunderous growl shakes the ground around you. You quickly dodge the rocks crumbling from the ceiling. Before you stands a ginormous green beast, drawing in its breath a-.... it can't be... it's a \"DRAGGGOOOONNN\". You just about get the word out before you're engulfed in flames and burnt to a crisp. GAME OVER! You can go north or back")
-    let answer = prompt("north or back")
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
+    let answer = prompt("A thunderous growl shakes the ground around you. You quickly dodge the rocks crumbling from the ceiling. Before you stands a ginormous green beast drawing in its breath a-.... it can't be... it's a \"DRAGGGOOOONNN\". You just about get the word out before you're engulfed in flames and burnt to a crisp. GAME OVER!\n\nYou can go west,north or east")
+
+    if(answer.toLowerCase() == "west") {
         emptyRoom();
     } else if(answer.toLowerCase() == "north") {
-        alert("north");
+        batRoom();
+    } else if(answer.toLowerCase() == "east") {
+        theFinalRoom();
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
         monsterRoom()
@@ -389,13 +377,14 @@ let monsterRoom = () => {
 }
 
 let batRoom = () => {
-    alert("You shine your torch into an empty cupboard startling a family of bats in the process they let out a shriek and frantically flap their wings in your direction. You try to take a step backwards falling over in the process and dropping your torch but luckily no bites, that was a close one! You can go east or back")
-    let answer = prompt("east or back")
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
+    let answer = prompt("You shine your torch into an empty cupboard startling a family of bats, they let out a shriek and frantically flap their wings in your direction. You try to take a step backwards falling over in the process and dropping your torch but luckily no bites. That was a close one!\n\nYou can go north, east or south")
+
+    if(answer.toLowerCase() == "south") {
         monsterRoom();
     } else if(answer.toLowerCase() == "east") {
-        alert("east");
+        pantry();
+    } else if(answer.toLowerCase() == "north") {
+        laboratory();
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
         batRoom()
@@ -406,10 +395,10 @@ let batRoom = () => {
 }
 
 let pantry = () => {
-    alert("You have found the pantry and in doing so have disturbed a huge rat feasting on some moldy cheese. The rat shoots you a menacing glance and gets ready to pounce! FIGHT/FLEE/GET FOOD You can go north, south or back")
-    let answer = prompt("north, south or back")
+    alert("You have found the pantry and in doing so have disturbed a huge rat feasting on some moldy cheese. The rat shoots you a menacing glare and gets ready to pounce! FIGHT/FLEE/GET FOOD.\n\nYou can go west, north or south")
+    let answer = prompt("west, north or south")
     console.log(answer)
-    if(answer.toLowerCase() == "back") {
+    if(answer.toLowerCase() == "west") {
         batRoom();
     } else if(answer.toLowerCase() == "north") {
         kitchen();
@@ -425,29 +414,27 @@ let pantry = () => {
 }
 
 let theFinalRoom = () => {
-    alert("This is it! You have completed your quest. There is a door to the south to the freedom.")
+    let answer = prompt("This is it! You have completed your quest.\n\nYou can go west, north or there is a door to the south to freedom.")
 
-    let answer = prompt("To exit go south or go back to the last room")
-
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
-        reception()
-    } else if (answer.toLowerCase() == "south") {
-        alert("south")
-        alert("Congratulations! The game has ended")
-        alert("That was fun, wasn't it!")
-
-        prompt("Would you like to play again?")
+    if(answer.toLowerCase() == "north") {
+        pantry()
+    } else if(answer.toLowerCase() == "west") {
+        monsterRoom()
+    } else if (answer.toLowerCase() == "south" || answer.toLowerCase() == "exit") {
+        answer = prompt("Congratulations! The game has ended\n\nThat was fun, wasn't it!\n\nWould you like to play again?")
         if(answer.toLowerCase() == "yes" || answer.toLowerCase() == "y") {
-                entrance()
-        } else if(answer.toLowerCase() == "inventory") {
-            showInventory()
-            theFinalRoom()
-        } else {
+            entrance()
+        } else if(answer.toLowerCase() == "no" || answer.toLowerCase() == "n") {
             alert("GAME OVER")
+        } else {
+            alert("give me something to work with!!!")
+            theFinalRoom();
         }
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        theFinalRoom()
     } else {
         alert("give me something to work with!!!")
-        armoury();
+        theFinalRoom();
     }
 }
