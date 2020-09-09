@@ -58,7 +58,7 @@ let showInventory = () => {
 
 // the room descriptions
 let entrance = () => {
-    let answer = prompt("Your torch illuminates the tiled floor up until a derelict grand staircase - some of the banisters are missing and the wooden stairs are rotten crumbling. You decide it's unsafe to try making your way upstairs and so you should play it safe and stick to the ground floor\n\nYou can go west, east or south");
+    let answer = prompt("Your torch illuminates the tiled floor up until a derelict grand staircase - some of the banisters are missing and the wooden stairs are rotten and crumbling. You decide it's unsafe to try making your way upstairs and so you play it safe and stick to the ground floor\n\nYou can go west, east or south");
 
     if(answer.toLowerCase() == "west") {
         hallway();
@@ -76,7 +76,7 @@ let entrance = () => {
 }
 
 let hallway = () => {
-    let answer = prompt("A small hallway lined with a long row of cabinets. You shine your torch inside the glass and see a twinkle of colour. On closer inspection you see a large collection of multicolured egg shaped stones, carved to look almost like reptilian skin. Very strange indeed.\n\n You can go east, south or west")
+    let answer = prompt("A small hallway lined with a long row of cabinets. You shine your torch inside the glass and see a twinkle of colour. On closer inspection you see a large collection of multicolured egg shaped stones, carved to look almost like reptilian skin. Very strange indeed.\n\nYou can go east, south or west")
 
     if(answer.toLowerCase() == "west") {
         livingRoom();
@@ -235,7 +235,7 @@ let laboratory = () => {
         library()
     } else if(answer.toLowerCase() == "east") {
         kitchen()
-    } else if(answer.toLowerCase() == "east") {
+    } else if(answer.toLowerCase() == "south") {
         batRoom()
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
