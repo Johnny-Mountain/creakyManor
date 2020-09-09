@@ -1,5 +1,6 @@
 // Global variables
 let inventory = []
+let ratIsAlive = true
 
 // return the first word of the sentence
 let getVerb = (sentence) => {
@@ -55,6 +56,9 @@ let showInventory = () => {
     }
     alert(desc)
 }
+let clearInventory = () => {
+    inventory.splice(0, inventory.length)
+}
 
 // the room descriptions
 let entrance = () => {
@@ -76,7 +80,7 @@ let entrance = () => {
 }
 
 let hallway = () => {
-    let answer = prompt("A small hallway lined with a long row of cabinets. You shine your torch inside the glass and see a twinkle of colour. On closer inspection you see a large collection of multicolured egg shaped stones, carved to look almost like reptilian skin. Very strange indeed.\n\nYou can go east, south or west")
+    let answer = prompt("A small hallway lined with a long row of cabinets. You shine your torch inside the glass and see a twinkle of colour. On closer inspection you see a large collection of multicolured egg shaped stones, carved to look almost like reptilian skin. Very strange indeed.\n\nYou can get the stones or go east, south or west")
 
     if(answer.toLowerCase() == "west") {
         livingRoom();
@@ -285,9 +289,9 @@ let nursery = () => {
 }
 
 let armoury = () => {
-    let answer = prompt("CRAASH! You think you’ve bumped into someone! Oh, it’s a suit of armour! It falls back into the suit behind causing an entire row of them to collapse like dominoes - the noise is deafening! You hope someone or something didn’t hear that! Looking around you notice huge swords and axes mounted along the walls. This must be the armoury In the centre of the room is a large wooden chest with a rusted lock. As you examine the lock further it snaps in your hand. YOU’RE IN! The chest contains a pointy dagger!\n\nWould you like to go west, north or south or pick up the dagger")
+    let answer = prompt("CRAASH! You think you’ve bumped into someone! Oh, it’s a suit of armour! It falls back into the suit behind causing an entire row of them to collapse like dominoes - the noise is deafening! You hope someone or something didn’t hear that! Looking around you notice huge swords and axes mounted along the walls. This must be the armoury In the centre of the room is a large wooden chest with a rusted lock. As you examine the lock further it snaps in your hand. YOU’RE IN! The chest contains a pointy dagger!\n\nWould you like to get the dagger or go west, north or south")
 
-    if ((getVerb(answer) == "get") && (getNoun(answer) == "dagger")) { 
+    if ((getVerb(answer) == "get") && (getNoun(answer) == "dagger")) {
             alert("picked up dagger")
             addItem("Pointy dagger")
             armoury()
@@ -359,7 +363,13 @@ let secretRoom = () => {
 }
 
 let monsterRoom = () => {
-    let answer = prompt("A thunderous growl shakes the ground around you. You quickly dodge the rocks crumbling from the ceiling. Before you stands a ginormous green beast drawing in its breath a-.... it can't be... it's a \"DRAGGGOOOONNN\". You just about get the word out before you're engulfed in flames and burnt to a crisp. GAME OVER!\n\nYou can go west,north or east")
+    if(!hasItem("STONES")) {
+        alert("A thunderous growl shakes the ground around you. You quickly dodge the rocks crumbling from the ceiling. Before you stands a ginormous green beast drawing in its breath a-... it can't be... it's a \"DRAGGGOOOONNN\". You just about get the word out before you're engulfed in flames and burnt to a crisp.\n\nGAME OVER!")
+        clearInventory()
+        entrance()
+    }
+
+    let answer = prompt("A ginormous green beast draws in its breath, a-.... it can't be... it's a \"DRAGGGOOOONNN\". It's just about to burn you to a crisp when the strange stones you carry begin to glow brightly. The dragon shrinks back, obvioulsy afraid, leaving you just enough space to run past.\n\nYou can go west,north or east")
 
     if(answer.toLowerCase() == "west") {
         emptyRoom();
@@ -395,21 +405,34 @@ let batRoom = () => {
 }
 
 let pantry = () => {
-    alert("You have found the pantry and in doing so have disturbed a huge rat feasting on some moldy cheese. The rat shoots you a menacing glare and gets ready to pounce! FIGHT/FLEE/GET FOOD.\n\nYou can go west, north or south")
-    let answer = prompt("west, north or south")
-    console.log(answer)
-    if(answer.toLowerCase() == "west") {
-        batRoom();
-    } else if(answer.toLowerCase() == "north") {
-        kitchen();
-    } else if(answer.toLowerCase() == "south") {
-        theFinalRoom();
-    } else if(answer.toLowerCase() == "inventory") {
-        showInventory()
-        pantry()
+    if(ratIsAlive) {
+        alert("You have found the pantry and in doing so have disturbed a huge rat feasting on some moldy cheese. The rat shoots you a menacing glare and gets ready to pounce!\n\nYou must fight")
+
+        if(hasItem("POINTY DAGGER")) {
+            alert("You quickly draw your pointy dagger and manage to stab the rabid beast in the heart as it jumps at you")
+            ratIsAlive = false
+            pantry()
+        } else {
+            alert("As you look around to try and find an esacpe route the giant rat leaps at your throat and either by chance or on purpose it finds your jugular vein and sinks it's teeth in.\n\nYou are now rat food. Better luck next time.\n\nGAME OVER")
+            clearInventory()
+            entrance()
+        }
     } else {
-        alert("give me something to work with!!!")
-        pantry();
+        let answer = prompt("You have found the pantry\n\nYou can go west, north or south")
+
+        if(answer.toLowerCase() == "west") {
+            batRoom();
+        } else if(answer.toLowerCase() == "north") {
+            kitchen();
+        } else if(answer.toLowerCase() == "south") {
+            theFinalRoom();
+        } else if(answer.toLowerCase() == "inventory") {
+            showInventory()
+            pantry()
+        } else {
+            alert("give me something to work with!!!")
+            pantry();
+        }
     }
 }
 
@@ -423,6 +446,8 @@ let theFinalRoom = () => {
     } else if (answer.toLowerCase() == "south" || answer.toLowerCase() == "exit") {
         answer = prompt("Congratulations! The game has ended\n\nThat was fun, wasn't it!\n\nWould you like to play again?")
         if(answer.toLowerCase() == "yes" || answer.toLowerCase() == "y") {
+            ratIsAlive = true
+            clearInventory()
             entrance()
         } else if(answer.toLowerCase() == "no" || answer.toLowerCase() == "n") {
             alert("GAME OVER")
