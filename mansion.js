@@ -323,7 +323,6 @@ let secretRoom = () => {
 let monsterRoom = () => {
     if(!hasStones) {
         alert("A thunderous growl shakes the ground around you. You quickly dodge the rocks crumbling from the ceiling. Before you stands a ginormous green beast drawing in its breath a-... it can't be... it's a \"DRAGGGOOOONNN\". You just about get the word out before you're engulfed in flames and burnt to a crisp.\n\nGAME OVER!")
-        clearInventory()
         start()
     }
 
@@ -366,9 +365,7 @@ let pantry = () => {
             pantry()
         } else {
             alert("As you look around to try and find an esacpe route the giant rat leaps at your throat and either by chance or by instinct it finds your jugular vein and sinks in it's teeth.\n\nYou are now rat food. Better luck next time.\n\nGAME OVER")
-            hasStones = false
-            isArmed = false
-            entrance()
+            start()
         }
     } else {
         let answer = prompt("You are in the pantry\n\nYou can go west, north or south")
@@ -399,9 +396,7 @@ let theFinalRoom = () => {
     } else if (answer.toLowerCase() == "south" || answer.toLowerCase() == "exit") {
         answer = prompt("Congratulations! The game has ended\n\nThat was fun, wasn't it!\n\nWould you like to play again?")
         if(answer.toLowerCase() == "yes" || answer.toLowerCase() == "y") {
-            ratIsAlive = true
-            clearInventory()
-            entrance()
+            start()
         } else if(answer.toLowerCase() == "no" || answer.toLowerCase() == "n") {
             alert("GAME OVER")
         } else {
