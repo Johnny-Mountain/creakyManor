@@ -2,10 +2,12 @@
 let inventory = []
 
 // game flags
-let ratIsAlive = true
 let hasStones = false
 let hasSkull = false
 let isArmed = false
+
+let ratIsAlive = true
+let armouryFirstTime = true
 
 // return the first word of the sentence
 let getVerb = (sentence) => {
@@ -17,6 +19,18 @@ let getVerb = (sentence) => {
 let getNoun = (sentence) => {
     let spl = sentence.split(" ")
     return spl[1].toLowerCase()
+}
+
+// initialise flags for a new game
+let start = () => {
+    hasStones = false
+    hasSkull = false
+    isArmed = false
+
+    ratIsAlive = true
+    armouryFirstTime = true
+
+    entrance()
 }
 
 // the room descriptions
@@ -36,17 +50,22 @@ let entrance = () => {
 }
 
 let hallway = () => {
-    let answer = prompt("A small hallway lined with a long row of cabinets. You shine your torch inside the glass and see a twinkle of colour. On closer inspection you see a large collection of multicolured egg shaped stones, carved to look almost like reptilian skin. Very strange indeed.\n\nYou can get the stones or go east, south or west")
+    let desc = "A small hallway lined with a long row of cabinets."
+    if(!hasStones)
+        desc += " On closer inspection you see a large collection of multicolured egg shaped stones, carved to look almost like reptilian skin. Very strange indeed.\n\nYou can get the stones or go west, east or south"
+    else
+        desc += "\n\nYou can go west, east or south"
 
-    console.log(`${answer}`)
+    let answer = prompt(desc)
+
     if(answer.toLowerCase() == "west") {
         livingRoom()
     } else if(answer.toLowerCase() == "east") {
         entrance()
     } else if(answer.toLowerCase() == "south") {
         nursery()
-    } else if(getVerb(answer) == "get" && getNoun(answer) == "stones") {
-        alert("picked up stones")
+    } else if(getVerb(answer) == "get" && getNoun(answer) == "stones" &&!hasStones) {
+        alert("picked up egg shaped stones")
         hasStones = true
         hallway()
     } else {
@@ -114,16 +133,29 @@ let gamesRoom = () => {
 }
 
 let boneRoom = () => {
-    let answer = prompt("Strange, this room is totally empty... apart from the pile of charred bones in the corner... rummaging through the bones you find a skull with eerie runes carved into it. You can get the skull or go north")
+    let answer = prompt("As you try to enter the room an invisible barrier blocks your path. A booming voice bellows \"If you answer this question correctly you may enter:\n\nA box without hinges, key or lid, yet golden treasure inside is hid. What is it?\"\n\nwhat is your answer?")
 
-    if(getVerb(answer) == "get" && getNoun(answer) == "skull") {
-        hasSkull = true
+    if(answer.toLowerCase() != "egg" && answer.toLowerCase() != "eggses")
         boneRoom()
-    } else if(answer.toLowerCase() == "north") {
-        gamesRoom();
-    } else {
-        alert("give me something to work with!!!")
-        boneRoom()
+    
+    while(true) {
+        let desc = "Strange, this room is totally empty... apart from the pile of charred bones in the corner..."
+        if(!hasSkull) {
+            desc += " rummaging through the bones you find a skull with eerie runes carved into it.\n\nYou can get the skull or go north"
+        } else {
+            desc += "\n\nYou can go north"
+        }
+
+        answer = prompt(desc)
+
+        if(getVerb(answer) == "get" && getNoun(answer) == "skull" && !hasSkull) {
+            hasSkull = true
+        } else if(answer.toLowerCase() == "north") {
+            gamesRoom();
+        } else {
+            alert("give me something to work with!!!")
+            boneRoom()
+        }
     }
 }
 
@@ -133,12 +165,7 @@ let masterDiningRoom = () => {
     if(answer.toLowerCase() == "west") {
         reception();
     } else if (answer.toLowerCase() == "south") {
-        answer = prompt("If you answer this correctly, you may enter:\n\nOne word in this sentence is misspelled. What word is it\n\nwhat is your answer?")
-        if(answer.toLowerCase() == "misspelled") {
-            kitchen()
-        } else {
-            masterDiningRoom()
-        }
+        kitchen()
     } else {
         alert("give me something to work with!!!")
         masterDiningRoom()
@@ -219,7 +246,21 @@ let nursery = () => {
 }
 
 let armoury = () => {
-    let answer = prompt("CRAASH! You think you’ve bumped into someone! Oh, it’s a suit of armour! It falls back into the suit behind causing an entire row of them to collapse like dominoes - the noise is deafening! You hope someone or something didn’t hear that! Looking around you notice huge swords and axes mounted along the walls. This must be the armoury In the centre of the room is a large wooden chest with a rusted lock. As you examine the lock further it snaps in your hand. YOU’RE IN! The chest contains a pointy dagger!\n\nWould you like to get the dagger or go west, north or south")
+    let desc = ""
+    if(armouryFirstTime) {
+        desc = "CRAASH! You think you’ve bumped into someone! Oh, it’s a suit of armour! It falls back into the suit behind causing an entire row of them to collapse like dominoes - the noise is deafening! You hope someone or something didn’t hear that! Looking around you notice huge swords and axes mounted along the walls. "
+        armouryFirstTime = false
+    } else {
+        desc = "You're in the armoury. Huge swords and axes are mounted along the walls and armour lies scattered all over the floor. "
+    }
+
+    if(isArmed) {
+        desc+= "In the centre of the room is a large empty wooden chest.\n\nYou can go west, north or south"
+    } else {
+        desc+= "In the centre of the room is a large wooden chest with a broken lock. It contains a pointy dagger!!! This could be handy\n\nWould you like to get the dagger or go west, north or south"
+    }
+
+    let answer = prompt(desc)
 
     if ((getVerb(answer) == "get") && (getNoun(answer) == "dagger")) {
         alert("picked up dagger")
@@ -264,8 +305,9 @@ let emptyRoom = () => {
 }
 
 let secretRoom = () => {
-    let answer = prompt("A Secret room! This dimly lit room has a desk, and beside it, a small safe. There is a large revolver on the desk. There is gun rack with a selection of rusty hunting rifles and shotguns. There is another rack on the opposite wall with some antique swords and crossbow as yoy touch them they crumble to dust. There is a cupboard, marked ‘survival rations’ Boxes litter the floor. One contains books and a couple of powerful torches.\n\nYou can get the revolver or go north")
+    let answer = prompt("A Secret room! This dimly lit room has a desk, and beside it, a small safe. There is a large revolver on the desk but sadly you can find no ammunition for it. There is gun rack with a selection of rusty hunting rifles and shotguns. There is another rack on the opposite wall with some antique swords and crossbow as you touch them they crumble to dust. There is a cupboard, marked ‘survival rations’ Boxes litter the floor. One contains books and a couple of powerful torches.\n\nYou can get the revolver or go north")
 
+    // pick something up here to be able to leave the house
     if ((getVerb(answer) == "get") && (getNoun(answer) == "revolver")) {
         alert("picked up revolver")
         isArmed = true
@@ -282,10 +324,10 @@ let monsterRoom = () => {
     if(!hasStones) {
         alert("A thunderous growl shakes the ground around you. You quickly dodge the rocks crumbling from the ceiling. Before you stands a ginormous green beast drawing in its breath a-... it can't be... it's a \"DRAGGGOOOONNN\". You just about get the word out before you're engulfed in flames and burnt to a crisp.\n\nGAME OVER!")
         clearInventory()
-        entrance()
+        start()
     }
 
-    let answer = prompt("A ginormous green beast draws in its breath, a-.... it can't be... it's a \"DRAGGGOOOONNN\". It's just about to burn you to a crisp when the strange stones you carry begin to glow brightly. The dragon shrinks back, obvioulsy afraid, leaving you just enough space to run past.\n\nYou can go west,north or east")
+    let answer = prompt("A ginormous green beast draws in its breath, a-.... it can't be... it's a \"DRAGGGOOOONNN\". It's just about to burn you to a crisp when the strange stones you carry begin to glow brightly. The dragon shrinks back, obviously afraid, leaving you just enough space to run past.\n\nYou can go west,north or east")
 
     if(answer.toLowerCase() == "west") {
         emptyRoom();
@@ -329,7 +371,7 @@ let pantry = () => {
             entrance()
         }
     } else {
-        let answer = prompt("You have found the pantry\n\nYou can go west, north or south")
+        let answer = prompt("You are in the pantry\n\nYou can go west, north or south")
 
         if(answer.toLowerCase() == "west") {
             batRoom();
