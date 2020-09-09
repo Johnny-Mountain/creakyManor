@@ -1,16 +1,62 @@
 // Global variables
 let inventory = []
 
+// return the first word of the sentence
 let getVerb = (sentence) => {
     let spl = sentence.split(" ")
     return spl[0].toLowerCase()
 }
 
+// return the second word of the sentence - "" if nothing there
 let getNoun = (sentence) => {
     let spl = sentence.split(" ")
     return spl[1].toLowerCase()
 }
 
+// control the players inventory
+let getInventory = () => { return inventory; }
+let getItem = (index) => { 
+    if(index < inventory.length)
+        return inventory[index]
+    else
+        return null
+}
+let findItem = (item) => {
+    for(i = 0; i < inventory.length; i++) {
+        if(inventory[i].toLowerCase() == item.toLowerCase()) {
+            return i;
+        }
+    }
+    return -1;
+}
+let addItem = (newItem) => { inventory.push(newItem); }
+let removeItem = (item) => {
+    for(i = 0; i < inventory.length; i++) {
+        if(inventory[i].toLowerCase() == item.toLowerCase()) {
+            inventory.splice(i, 1);
+            break;
+        }
+    }
+}
+let hasItem = (hasThis) => {
+    for(i = 0; i < inventory.length; i++) {
+        if(inventory[i].toLowerCase() == hasThis.toLowerCase()) {
+            return true;
+        }
+    }
+    return false;
+}
+let showInventory = () => {
+    let desc = "You are carrying\n\n"
+    if(inventory.length == 0)
+    desc += "nothing"
+    for(i = 0; i < inventory.length; i++) {
+        desc += inventory[i] + "\n"
+    }
+    alert(desc)
+}
+
+// the room descriptions
 let entrance = () => {
     alert("Your torch illuminates the tiled floor up until a grand staircase. Some of the banisters are missing and the stairs crumbling. You wonder if it's safe to try making your way upstairs or if you should play it safe and stick to the ground floor");
 
@@ -21,6 +67,9 @@ let entrance = () => {
         hallway();
     } else if(answer.toLowerCase() == "east") {
         reception()
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        entrance()
     } else {
         alert("give me something to work with!!!")
         entrance()
@@ -39,8 +88,11 @@ let hallway = () => {
         entrance()
     } else if(getVerb(answer) == "get" && getNoun(answer) == "stones") {
         alert("picked up stones")
-        inventory.push("Stones")
+        addItem("Stones")
         console.log(`${inventory[0]}`)
+        hallway()
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
         hallway()
     } else {
         alert("give me something to work with!!!")
@@ -60,6 +112,9 @@ let reception = () => {
         laboratory()
     } else if(answer.toLowerCase() == "back") {
         entrance()
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        reception()
     } else {
         alert("give me something to work with!!!")
         reception()
@@ -76,6 +131,9 @@ let livingRoom = () => {
         conservatory();
     } else if(answer.toLowerCase() == "back") {
         hallway()
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        livingRoom()
     } else {
         alert("give me something to work with!!!")
         entrance()
@@ -95,7 +153,10 @@ let conservatory = () => {
     } else if(getVerb(answer) == "get" &&
              (getNoun(answer) == "flask" || getNoun(answer) == "water")) {
         alert("picked up Flask of Water")
-        inventory.push("Flask of Water")
+        addItem("Flask of Water")
+        conservatory()
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
         conservatory()
     } else {
         alert("give me something to work with!!!")
@@ -113,9 +174,12 @@ let gamesRoom = () => {
         boneRoom();
     } else if(answer.toLowerCase() == "back") {
         conservatory()
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        gamesRoom()
     } else {
         alert("give me something to work with!!!")
-        conservatory()
+        gamesRoom()
     }
 }
 
@@ -127,6 +191,12 @@ let boneRoom = () => {
     console.log(answer)
     if(answer.toLowerCase() == "back") {
         gamesRoom();
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        boneRoom()
+    } else {
+        alert("give me something to work with!!!")
+        gamesRoom()
     }
 }
 
@@ -145,9 +215,12 @@ let masterDiningRoom = () => {
         } else {
             masterDiningRoom()
         }
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        masterDiningRoom()
     } else {
         alert("give me something to work with!!!")
-        conservatory()
+        masterDiningRoom()
     }
 }
 
@@ -159,8 +232,12 @@ let kitchen = () => {
     console.log(answer)
     if(answer.toLowerCase() == "back"){
         masterDiningRoom()
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        kitchen()
     } else {
         alert("give me something to work with!!!")
+        kitchen()
     }
 }
 
@@ -173,6 +250,9 @@ let laboratory = () => {
         reception();
     } else if(answer.toLowerCase() == "west") {
         library()
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        laboratory()
     } else {
         alert("give me something to work with!!!")
         laboratory();
@@ -180,7 +260,7 @@ let laboratory = () => {
 }
 
 let library = () => {
-    alert("You have entered. The master library. There are bookselves on every wall except the wall facing the window. Between the windowed wall and the one opposite there are desks for reading and studying. The desks are very old and still have inkwells. There is parchment paper in the draws. A copy of Javascript for Dummies is sitting on one desk. You can go back to the laboratory or head west")
+    alert("You have entered. The master library. There are bookselves on every wall except the wall facing the window. Between the windowed wall and the one opposite there are desks for reading and studying. The desks are very old and still have inkwells. There is parchment paper in the drawers. A copy of Javascript for Dummies is sitting on one desk. You can go back to the laboratory or head west")
 
     let answer = prompt("back or west")
 
@@ -189,6 +269,9 @@ let library = () => {
         laboratory();
     } else if(answer.toLowerCase() == "west") {
         nursery();
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        library()
     } else {
         alert("give me something to work with!!!")
         library();
@@ -203,6 +286,9 @@ let nursery = () => {
         library();
     } else if(answer.toLowerCase() == "south") {
         armoury();
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        nursery()
     } else {
         alert("give me something to work with!!!")
         nursery();
@@ -217,18 +303,56 @@ let armoury = () => {
     console.log(answer)
     if ((getVerb(answer) == "get") && (getNoun(answer) == "dagger")) { 
             alert("picked up dagger")
-            inventory.push("Pointy dagger")
+            addItem("Pointy dagger")
             let answer= prompt("back or south")
     }
     else if(answer.toLowerCase() == "south") {
-        armoury();
+        smokingRoom();
     } 
     else if(answer.toLowerCase() == "back") {
         nursery();
     } 
+    else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        armoury()
+    }
     else {
         alert("give me something to work with!!!")
         armoury();
+    }
+}
+
+let smokingRoom = () => {
+    alert("You have entered. The smoking room. There are several leather chairs separated by small tables. There are several large humidors and there is a distinctive smell of Cuban cigars and ancient tobacco smoke. Decanters of Port, Brandy, whiskey, gin and vodka sit atop a large Edwardian drinks cabinet, filled with ornate glass-wear. You can head east or back to the armoury")
+    let answer = prompt("back or south")
+    console.log(answer)
+    if(answer.toLowerCase() == "back") {
+        armoury();
+    } else if(answer.toLowerCase() == "east") {
+        emptyRoom()
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        smokingRoom()
+    } else {
+        alert("give me something to work with!!!")
+        smokingRoom();
+    }
+}
+
+let emptyRoom = () => {
+    alert("Water drips from a crack in the ceiling. Your footsteps echo as you walk further into the empty room. Your torch illuminates a message scratched onto the stone wall \"BEWARE THE EMERALD BEAST DO NOT GO EAST\". Do you heed the warning? You can go east or back")
+    let answer = prompt("east or back")
+    console.log(answer)
+    if(answer.toLowerCase() == "back") {
+        smokingRoom();
+    } else if(answer.toLowerCase() == "east") {
+        alert("east");
+    } else if(answer.toLowerCase() == "inventory") {
+        showInventory()
+        emptyRoom()
+    } else {
+        alert("give me something to work with!!!")
+        emptyRoom();
     }
 }
 
@@ -239,15 +363,23 @@ let theFinalRoom = () => {
 
     console.log(answer)
     if(answer.toLowerCase() == "back") {
-        alert("back")
+        reception()
     } else if (answer.toLowerCase() == "south") {
         alert("south")
         alert("Congratulations! The game has ended")
-        alert("That was fun, wasn't!")
+        alert("That was fun, wasn't it!")
 
         prompt("Would you like to play again?")
         if(answer.toLowerCase() == "yes" || answer.toLowerCase() == "y") {
                 entrance()
+        } else if(answer.toLowerCase() == "inventory") {
+            showInventory()
+            theFinalRoom()
+        } else {
+            alert("GAME OVER")
         }
+    } else {
+        alert("give me something to work with!!!")
+        armoury();
     }
 }
