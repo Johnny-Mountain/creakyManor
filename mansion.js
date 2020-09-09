@@ -1,6 +1,10 @@
 // Global variables
 let inventory = []
+
+// game flags
 let ratIsAlive = true
+let hasStones = false
+let isArmed = false
 
 // return the first word of the sentence
 let getVerb = (sentence) => {
@@ -348,11 +352,14 @@ let emptyRoom = () => {
 }
 
 let secretRoom = () => {
-    alert("no description so far")
-    let answer = prompt("your choice")
-    console.log(answer)
-    if(answer.toLowerCase() == "back") {
-        secretRoom();
+    let answer = prompt("A Secret room! This dimly lit room has a desk, and beside it, a small safe. There is a large revolver on the desk. There is gun rack with a selection of hunting rifles and shotguns. There is another rack on the opposite wall with some antique swords and crossbow. There is a cupboard, marked ‘survival rations’ Boxes litter the floor. One contains books and a couple of powerful torches.\n\nThe only way out is north")
+
+    if ((getVerb(answer) == "get") && (getNoun(answer) == "revolver")) {
+        alert("picked up dagger")
+        addItem("Pointy dagger")
+        armoury()
+    } else if(answer.toLowerCase() == "north") {
+        library();
     } else if(answer.toLowerCase() == "inventory") {
         showInventory()
         secretRoom()
