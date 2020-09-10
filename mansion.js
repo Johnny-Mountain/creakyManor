@@ -82,6 +82,8 @@ let start = () => {
 
 // the room descriptions
 let entrance = () => {
+    document.body.style.backgroundImage = "url('/images/entrance.jpg')"
+
     if(!entranceVisited) {
         entranceVisited = true
         roomsVisited++
@@ -127,8 +129,9 @@ let hallway = () => {
         entrance()
     } else if(answer.toLowerCase() == "south") {
         nursery()
-    } else if((getVerb(answer) == "get" || getVerb(answer) == "take") &&
-              (getNoun(answer) == "stone" || getNoun(answer) == "stones")) {
+    } else if(((getVerb(answer) == "get" || getVerb(answer) == "take") &&
+               (getNoun(answer) == "stone" || getNoun(answer) == "stones")) ||
+               (getVerb(answer) == "stone" || getVerb(answer) == "stones")) {
                 if(hasStones) {
                     alert("You already have them")
                 } else {
@@ -257,16 +260,18 @@ let boneRoom = () => {
 
         if(answer == null) {
             alert("I don't think so")
-        } else if((getVerb(answer) == "get" || getVerb(answer) == "take") &&
-            getNoun(answer) == "skull" && !hasSkull) {
+        } else if(((getVerb(answer) == "get" || getVerb(answer) == "take") &&
+                   (getNoun(answer) == "skull" && !hasSkull)) ||
+                   (getVerb(answer) == "skull")) {
             hasSkull = true
         } else if(answer.toLowerCase() == "north") {
-            gamesRoom();
+            break
         } else {
             alert("give me something to work with!!!")
-            boneRoom()
         }
     }
+
+    gamesRoom()
 }
 
 let masterDiningRoom = () => {
@@ -416,7 +421,8 @@ let armoury = () => {
     if(answer == null) {
         alert("I don't think so")
         armoury()
-    } else if ((getVerb(answer) == "get") && (getNoun(answer) == "dagger")) {
+    } else if (((getVerb(answer) == "get") && (getNoun(answer) == "dagger")) ||
+                (getVerb(answer) == "dagger")) {
         alert("picked up dagger")
         isArmed = true
         armoury()
@@ -493,7 +499,8 @@ let secretRoom = () => {
     if(answer == null) {
         alert("I don't think so")
         secretRoom()
-    } else if ((getVerb(answer) == "get") && (getNoun(answer) == "key")) {
+    } else if (((getVerb(answer) == "get") && (getNoun(answer) == "key")) ||
+                (getVerb(answer) == "key")){
         if(hasKey) {
             alert("you already have it")
             secretRoom()
@@ -605,7 +612,7 @@ let theFinalRoom = () => {
 
     let desc = "This is it! You have completed your quest.\n\nYou can go west, north or there is a door to the south to freedom."
     if(!hasKey)
-        desc = "well this is the way out but the huge door is locked. There has to be some way of opening it. You can go west or north"
+        desc = "well this is the way out but the huge door is locked. There has to be some way of opening it.\n\nYou can go west or north"
 
     let answer = prompt(desc)
     if(answer == null) {
@@ -628,16 +635,20 @@ let theFinalRoom = () => {
 }
 
 let restart = () => {
-    let answer = prompt("Would you like to play again?")
+    let answer = prompt("Would you like to play again?\n\nYes or No")
     if(answer == null) {
         alert("I don't think so")
         theFinalRoom()
-    } else if(answer.toLowerCase() == "yes") {
+    } else if(answer.toLowerCase() == "yes" || answer.toLowerCase() == 'y') {
         start()
-    } else if(answer.toLowerCase() == "no") {
-        alert("GAME OVER")
+    } else if(answer.toLowerCase() == "no" || answer.toLowerCase() == 'n') {
+        quit()
     } else {
         alert("give me something to work with!!!")
         restart();
     }
+}
+
+let quit = () => {
+    alert("GAME OVER\n\nGoodbye!!")
 }

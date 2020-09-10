@@ -1,0 +1,18 @@
+    * {
+    /*    background-color: olivedrab; */
+        box-sizing: border-box;
+        padding: 20px 25px;
+        font-family: 'Gayathri', sans-serif;
+        font-size: 15px;
+    }
+    
+    body {
+        background-image: url("./images/creepyManor.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    button {
+        margin: auto;
+        display: block;
+    }
