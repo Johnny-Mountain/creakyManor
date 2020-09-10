@@ -5,6 +5,7 @@ let inventory = []
 // puzzle flags
 let hasStones = false
 let hasSkull = false
+let hasKey = false
 let isArmed = false
 let ratIsAlive = true
 
@@ -48,6 +49,7 @@ let getNoun = (sentence) => {
 let start = () => {
     hasStones = false
     hasSkull = false
+    hasKey = false
     isArmed = false
     ratIsAlive = true
 
@@ -73,7 +75,8 @@ let start = () => {
     exitRoomVisited = false
     
     roomsVisited = 0
-    
+
+    alert("What?!? Why?!? Where?!? You have no idea where or who you are. You feel your head but there are no bumps, bruises or cuts but you are feeling dazed. You are in a large broken down house, getting out has to be your first priority but the door behind you is barricaded with fallen debris. Onwards it is")
     entrance()
 }
 
@@ -475,18 +478,30 @@ let secretRoom = () => {
     if(!secretRoomVisited) {
        secretRoomVisited = true
        roomsVisited++
-   }
 
-   let answer = prompt("A Secret room! This dimly lit room has a desk, and beside it, a small safe. There is a large revolver on the desk but sadly you can find no ammunition for it. There is gun rack with a selection of rusty hunting rifles and shotguns. There is another rack on the opposite wall with some antique swords and crossbow as you touch them they crumble to dust. There is a cupboard, marked ‘survival rations’ Boxes litter the floor. One contains books and a couple of powerful torches.\n\nYou can get the revolver or go north")
+       alert("As you enter the runed skull floats from your hand and drifts across the room and settles on a desk. It turns to face you and, immposibly, seems to smile and a voice whispers \"Thankyou\" before the skull crumbles to dust. Glinting in the remnants of the skull you see a key. Maybe this is important?")
+    }
+
+    let desc = "A Secret room! This dimly lit room has a desk, and beside it, a small safe. There is a large revolver on the desk but sadly you can find no ammunition for it. There is gun rack with a selection of rusty hunting rifles and shotguns. There is another rack on the opposite wall with some decayed antique swords and crossbow. There is an empty cupboard marked ‘survival rations’ and empty boxes litter the floor.\n\n"
+    if(!hasKey)
+        desc += "You can get the key or go north"
+    else
+        desc += "You can go north"
+    let answer = prompt(desc)
 
     // pick something up here to be able to leave the house
     if(answer == null) {
         alert("I don't think so")
         secretRoom()
-    } else if ((getVerb(answer) == "get") && (getNoun(answer) == "revolver")) {
-        alert("picked up revolver")
-        isArmed = true
-        armoury()
+    } else if ((getVerb(answer) == "get") && (getNoun(answer) == "key")) {
+        if(hasKey) {
+            alert("you already have it")
+            secretRoom()
+        } else {
+            alert("picked up key")
+            hasKey = true
+            secretRoom()
+        }
     } else if(answer.toLowerCase() == "north") {
         library();
     } else {
@@ -503,7 +518,7 @@ let monsterRoom = () => {
 
    if(!hasStones) {
         alert("A thunderous growl shakes the ground around you. You quickly dodge the rocks crumbling from the ceiling. Before you stands a ginormous green beast drawing in its breath a-... it can't be... it's a \"DRAGGGOOOONNN\". You just about get the word out before you're engulfed in flames and burnt to a crisp.\n\nGAME OVER!")
-        start()
+        restart()
     }
 
     let answer = prompt("A ginormous green beast draws in its breath, a-.... it can't be... it's a \"DRAGGGOOOONNN\". It's just about to burn you to a crisp when the strange stones you carry begin to glow brightly. The dragon shrinks back, obviously afraid, leaving you just enough space to run past.\n\nYou can go west,north or east")
@@ -561,7 +576,7 @@ let pantry = () => {
             pantry()
         } else {
             alert("As you look around to try and find an esacpe route the giant rat leaps at your throat and either by chance or by instinct it finds your jugular vein and sinks in it's teeth.\n\nYou are now rat food. Better luck next time.\n\nGAME OVER")
-            start()
+            restart()
         }
     } else {
         let answer = prompt("You are in the pantry\n\nYou can go west, north or south")
@@ -586,10 +601,13 @@ let theFinalRoom = () => {
     if(!exitRoomVisited) {
        exitRoomVisited = true
        roomsVisited++
-   }
+    }
 
-   let answer = prompt("This is it! You have completed your quest.\n\nYou can go west, north or there is a door to the south to freedom.")
+    let desc = "This is it! You have completed your quest.\n\nYou can go west, north or there is a door to the south to freedom."
+    if(!hasKey)
+        desc = "well this is the way out but the huge door is locked. There has to be some way of opening it. You can go west or north"
 
+    let answer = prompt(desc)
     if(answer == null) {
         alert("I don't think so")
         theFinalRoom()
@@ -598,21 +616,28 @@ let theFinalRoom = () => {
     } else if(answer.toLowerCase() == "west") {
         monsterRoom()
     } else if (answer.toLowerCase() == "south") {
-        while(true) {
+        if(hasKey) {
             let roomsPercent = ((100 / 20) * roomsVisited)
-            answer = prompt(`Congratulations! The game has ended\n\nThat was fun, wasn't it!\n\nYou visited ${roomsPercent}% of the rooms.\n\nWould you like to play again?`)
-            if(answer == null) {
-                alert("I don't think so")
-                theFinalRoom()
-            } else if(answer.toLowerCase() == "yes") {
-                start()
-            } else if(answer.toLowerCase() == "no") {
-                alert("GAME OVER")
-                break
-            } else {
-                alert("give me something to work with!!!")
-                theFinalRoom();
-            }
+            alert(`You turn the key in the lock and the door creaks open. Daylight blinds you momentarily and you step out onto crunchy gravel and take in a lungful of fresh air. Freedom.\n\nCongratulations!\n\nThat was fun, wasn't it!\n\nYou visited ${roomsPercent}% of the rooms.`)
+            restart()
+        } else {
+            alert("The door is locked. Perhaps a key?")
+            theFinalRoom()
         }
+    }
+}
+
+let restart = () => {
+    let answer = prompt("Would you like to play again?")
+    if(answer == null) {
+        alert("I don't think so")
+        theFinalRoom()
+    } else if(answer.toLowerCase() == "yes") {
+        start()
+    } else if(answer.toLowerCase() == "no") {
+        alert("GAME OVER")
+    } else {
+        alert("give me something to work with!!!")
+        restart();
     }
 }
